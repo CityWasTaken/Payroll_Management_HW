@@ -5,35 +5,43 @@ const employeesArray = [];
 // Collect employee data
 const collectEmployees = function () {
   // TODO: Get user input to create and return an array of employee objects
-  let firstName;
-  let lastName;
-  let salary;
+  let keepAdding = true;
 
-  let keepAsking = true
+  while (keepAdding) {
+    let firstName;
+    let lastName;
+    let salary;
 
-    while (keepAsking) {
-      firstName = prompt("Please provide your first name.");
-      lastName = prompt("Please provide your last name.");
-      salary = prompt("Please provide your salary.");
+    let keepAsking = true
 
-      if (firstName && lastName  && salary) {
-          keepAsking = false;
-      } else {
-          alert("ALL info MUST be entered!")
+      while (keepAsking) {
+        firstName = prompt("Please provide your first name.");
+        lastName = prompt("Please provide your last name.");
+        salary = prompt("Please provide your salary.");
+
+        if (firstName && lastName  && salary) {
+            keepAsking = false;
+        } else {
+            alert("ALL info MUST be entered!")
+        }
+
       }
 
+    const employeess = {
+        firstName: firstName,
+        lastName: lastName,
+        salary: salary
+    };
+
+    employeesArray.push(employeess);
+
+    const continueAdding = prompt("Do you want to add another employee? (yes/no)")
+    if (continueAdding === null || continueAdding.toLowerCase() !== 'yes'){
+      keepAdding = false;
     }
-
-  const employeess = {
-      firstName: firstName,
-      lastName: lastName,
-      salary: salary
-  };
-
-  employeesArray.push(employeess);
-
-  return employeesArray;
-
+    
+    return employeesArray;
+  }
 };
 
 
