@@ -14,46 +14,70 @@ const collectEmployees = function () {
 
     let keepAsking = true
 
-      while (keepAsking) {
-        firstName = prompt("Please provide your first name.");
-        lastName = prompt("Please provide your last name.");
-        salary = prompt("Please provide your salary.");
+    while (keepAsking) {
+      firstName = prompt("Please provide your first name.");
+      lastName = prompt("Please provide your last name.");
+      salary = prompt("Please provide your salary.");
 
-        if (firstName && lastName  && salary) {
-            keepAsking = false;
-        } else {
-            alert("ALL info MUST be entered!")
+      if (firstName && lastName && salary) {
+        if (isNaN(salary)) {
+          salary = 0;
         }
-
+        
+        salary = Number(salary).toLocaleString('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        });
+        keepAsking = false;
+      } else {
+        alert("ALL info MUST be entered!");
       }
 
-    const employeess = {
-        firstName: firstName,
-        lastName: lastName,
-        salary: salary
+    }
+
+    const employee = {
+      firstName: firstName,
+      lastName: lastName,
+      salary: salary
     };
 
-    employeesArray.push(employeess);
+    employeesArray.push(employee);
 
-    const continueAdding = prompt("Do you want to add another employee? (yes/no)")
-    if (continueAdding === null || continueAdding.toLowerCase() !== 'yes'){
-      keepAdding = false;
-    }
-    
-    return employeesArray;
+    keepAdding = confirm('Would you like to add another employee?');
+
   }
+  
+  return employeesArray;
+
 };
 
 
 // Display the average salary
 const displayAverageSalary = function (employeesArray) {
   // TODO: Calculate and display the average salary
+  if (employeesArray.length === 0) return 0;
+
+  const totalSalary = employeesArray.reduce((sum, employee) => {
+    // Remove the dollar sign and commas, then convert to a number
+    const salaryNumber = Number(employee.salary.replace(/[^0-9.-]+/g, ""));
+    return sum + salaryNumber;
+  }, 0);
+
+  const averageSalary = totalSalary / employeesArray.length;
+  console.log(`The average salary is: ${averageSalary.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}`);
 };
+
 
 // Select a random employee
 const getRandomEmployee = function (employeesArray) {
   // TODO: Select and display a random employee
+  if (employeesArray.length === 0) return null;
+
+  const Index = Math.floor(Math.random() * employeesArray.length);
+  const randomEmployee = employeesArray[Index];
+  console.log(`Congradulations to ${randomEmployee.firstName} ${randomEmployee.lastName} our random drawing winner!`);
 };
+
 
 addEmployeesBtn.addEventListener('click', collectEmployees);
 
